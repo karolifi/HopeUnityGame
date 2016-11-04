@@ -5,7 +5,10 @@ public class PlayerController : MonoBehaviour {
 
     public float speed;
     private Rigidbody2D rb2d;
-    private int count;
+
+	//public AudioClip darkSound;
+	//public AudioClip lightSound;
+	//public AudioSource audio; 
 
 	public float originalRange;
 	public Light lt;
@@ -13,7 +16,10 @@ public class PlayerController : MonoBehaviour {
     void Start () 
 	{
         rb2d = GetComponent<Rigidbody2D>();
-        count = 0;
+
+		//audio = GetComponent<AudioSource>();
+		//lightSound = (AudioClip) Resources.Load ("Pling2");
+		//darkSound = (AudioClip) Resources.Load ("Mørk1");
 
 		lt = GetComponent<Light>();
 		originalRange = lt.range;
@@ -35,6 +41,10 @@ public class PlayerController : MonoBehaviour {
     {
 		if (other.gameObject.CompareTag ("Pickup")) 
 		{
+			AudioSource audio = GetComponent<AudioSource>();
+			audio.Play();
+			//audio.PlayOneShot(lightSound);
+
 			other.gameObject.SetActive (false); //removes the object that was picked up
 
 			lt.range = originalRange + 0.5F;
@@ -45,6 +55,16 @@ public class PlayerController : MonoBehaviour {
 		{
 			lt.range = originalRange + 10;
 			originalRange += 10;
+
+			AudioSource goalSound = other.gameObject.GetComponent<AudioSource>();
+			goalSound.Play();
+
+		}
+
+		if(other.gameObject.CompareTag ("Enemy"))
+		{
+			//AudioSource.PlayClipAtPoint(darkSound, transform.position); 
+			//audio.PlayOneShot(darkSound);
 		}
     }
 
