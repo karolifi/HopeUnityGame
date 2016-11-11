@@ -72,6 +72,7 @@ public class PlayerController : MonoBehaviour {
 	{
 		if (coll.gameObject.CompareTag ("Enemy")) 
 		{
+			//while contact point exists?
 			lt.range = originalRange - 1.0F;
 			originalRange -= 1.0F;
 		}
