@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour {
 		originalRange = lt.range;
     }
 
-	void FixedUpdate () 
+	void FixedUpdate () //hva er forskjellen mellom fixedUpdate og update?
 	{
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour {
 		if (other.gameObject.CompareTag ("Pickup")) 
 		{
 			AudioSource audio = GetComponent<AudioSource>();
-			audio.Play();
+			audio.Play(); //plays the pickup sound from an audioSource component on the player object
 			//audio.PlayOneShot(lightSound);
 
 			other.gameObject.SetActive (false); //removes the object that was picked up
@@ -72,8 +72,8 @@ public class PlayerController : MonoBehaviour {
 	{
 		if (coll.gameObject.CompareTag ("Enemy")) 
 		{
-			lt.range = originalRange - 0.5F;
-			originalRange -= 0.5F;
+			lt.range = originalRange - 1.0F;
+			originalRange -= 1.0F;
 		}
 	}
 }
