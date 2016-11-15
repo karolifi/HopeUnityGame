@@ -7,6 +7,10 @@ TagManager:
   - Pickup
   - Enemy
   - Goal
+  - ShowOnPause
+  - ShowOnFinish
+  - ShowOnWin
+  - AllEnemies
   layers:
   - Default
   - TransparentFX

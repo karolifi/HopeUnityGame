@@ -6,26 +6,22 @@ public class PlayerController : MonoBehaviour {
     public float speed;
     private Rigidbody2D rb2d;
 
-	//public AudioClip darkSound;
-	//public AudioClip lightSound;
-	//public AudioSource audio; 
-
 	public float originalRange;
 	public Light lt;
+	public static bool alive;
+	public static bool hasWon;
 
     void Start () 
 	{
         rb2d = GetComponent<Rigidbody2D>();
-
-		//audio = GetComponent<AudioSource>();
-		//lightSound = (AudioClip) Resources.Load ("Pling2");
-		//darkSound = (AudioClip) Resources.Load ("Mørk1");
+		alive = true;
+		hasWon = false;
 
 		lt = GetComponent<Light>();
 		originalRange = lt.range;
     }
 
-	void FixedUpdate () //hva er forskjellen mellom fixedUpdate og update?
+	void FixedUpdate () 
 	{
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
@@ -35,16 +31,13 @@ public class PlayerController : MonoBehaviour {
 
         rb2d.AddForce(movement * speed);
     }
-
-    //OnTriggerEnter2D is called whenever this object overlaps with a trigger collider.
+		
     void OnTriggerEnter2D(Collider2D other)
     {
 		if (other.gameObject.CompareTag ("Pickup")) 
 		{
 			AudioSource audio = GetComponent<AudioSource>();
 			audio.Play(); //plays the pickup sound from an audioSource component on the player object
-			//audio.PlayOneShot(lightSound);
-
 			other.gameObject.SetActive (false); //removes the object that was picked up
 
 			lt.range = originalRange + 0.5F;
@@ -59,12 +52,7 @@ public class PlayerController : MonoBehaviour {
 			AudioSource goalSound = other.gameObject.GetComponent<AudioSource>();
 			goalSound.Play();
 
-		}
-
-		if(other.gameObject.CompareTag ("Enemy"))
-		{
-			//AudioSource.PlayClipAtPoint(darkSound, transform.position); 
-			//audio.PlayOneShot(darkSound);
+			hasWon = true;
 		}
     }
 
@@ -75,6 +63,14 @@ public class PlayerController : MonoBehaviour {
 			//while contact point exists?
 			lt.range = originalRange - 1.0F;
 			originalRange -= 1.0F;
+			AudioSource gravitySound = GameObject.FindGameObjectWithTag("AllEnemies").GetComponent<AudioSource>();
+			gravitySound.Play ();
+		}
+		if (lt.range <=0)
+		{
+			gameObject.GetComponent<SpriteRenderer>().enabled = false;
+			alive = false;
+			Time.timeScale = 0;
 		}
 	}
 }
