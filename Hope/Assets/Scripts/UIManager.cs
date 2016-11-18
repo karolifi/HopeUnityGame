@@ -8,6 +8,8 @@ public class UIManager : MonoBehaviour {
 	GameObject[] finishObjects;
 	GameObject[] winObjects;
 
+	private bool hasEnded;
+
 	// Use this for initialization
 	void Start () {
 		Time.timeScale = 1;
@@ -17,6 +19,7 @@ public class UIManager : MonoBehaviour {
 		hidePaused();
 		hideFinished();
 		hideWin ();
+		hasEnded = false;
 	}
 
 	// Update is called once per frame
@@ -40,7 +43,7 @@ public class UIManager : MonoBehaviour {
 			showFinished();
 		}
 
-		if (PlayerController.hasWon == true) {
+		if ((PlayerController.hasWon == true) && (hasEnded == false)) {
 			Debug.Log ("WinRegistred");
 			showWin ();
 		}
@@ -111,8 +114,10 @@ public class UIManager : MonoBehaviour {
 	}
 
 	public void EndIt(){
-		Debug.Log ("Ended");
+		hasEnded = true;
 		SceneManager.LoadScene ("EndScene");
+		GameObject.Find ("Fader2").GetComponent<Fading> ().BeginFade (-1);
+		Debug.Log ("Ended");
 	}
 
 }
